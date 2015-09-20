@@ -30,6 +30,12 @@ angular.module('godocApp')
         .then(function(graph) {
           $scope.pkgs = graph.pkgs;
 
+          _.each($scope.pkgs, function(pkg) {
+            if ( pkg.path === $scope.package.ImportPath ) {
+              $scope.pkgs.current = pkg;
+            }
+          });
+
           $scope.edges = _.map(graph.edges, function(e) {
             return {
               source: $scope.pkgs[e[0]],
@@ -40,8 +46,11 @@ angular.module('godocApp')
           var g = angular.copy(graph);
 
           _.each(g.edges, function(e) {
-            g.pkgs[e[0]].children = g.pkgs[e[0]].children || []
-            g.pkgs[e[0]].children.push(g.pkgs[e[1]])
+            var parent = g.pkgs[e[0]];
+            var child = g.pkgs[e[1]];
+
+            parent.children = parent.children || []
+            parent.children.push(angular.copy(child));
           });
 
           _.each(g.pkgs, function(p) {

@@ -1,12 +1,10 @@
-<div class="jumbotron">
-  <h1>package {{package.Name}}</h1>
+<div class="jumbotron"> <h1>package {{package.Name}}</h1>
   <p>{{package.Synopsis}}</p>
   <p>Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
   <a class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
 </div>
 
 <div class="container">
-  <dependency-tree tree="tree"></dependency-tree>
   <section class="index">
     <h2 ng-click="hideIndex = !hideIndex">Index</h2>
     <div ng-hide="hideIndex">
@@ -36,7 +34,7 @@
     <header>
       <h2>Consts</h2>
     </header>
-    <div ng-repeat="const in package.Consts track by const.Name">
+    <div ng-repeat="const in package.Consts">
       <doc-base data="const"></doc-base>
     </div>
   </section>
@@ -83,6 +81,7 @@
       <a ng-href="#/{{imp}}">{{imp}}</a>
     </div>
   </section>
-
-
 </div>
+
+<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+<!-- <dependency-tree tree="tree"></dependency-tree> -->
