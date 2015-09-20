@@ -8,14 +8,8 @@
  * Controller of the godocApp
  */
 angular.module('godocApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $http.get('http://localhost:8080/github.com/andrewstuart/go-hnfire', {
-      headers: {
-        Accept: 'application/json'
-      }
-    }).success(function(pkg) {
-      $scope.package = pkg;
-    });
+  .controller('MainCtrl', function ($scope, packages) {
+    $scope.packages = packages;
   }).filter('dateDiff', function() {
     return function(input, compareTo) {
       compareTo = compareTo || moment();

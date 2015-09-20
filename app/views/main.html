@@ -1,63 +1,6 @@
-<div class="jumbotron">
-  <h1>package {{package.ProjectName}}</h1>
-  <p>{{package.Synopsis}}</p>
-  <p>Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
-</div>
-
 <div class="container">
-  <section class="consts">
-    <header>
-      <h2>Consts</h2>
-    </header>
-    <div ng-repeat="const in package.Consts">
-      <pre class="golang">{{const.Decl.Text}}</pre>
-      <p>{{const.Doc}}</p>
-    </div>
-  </section>
-
-  <section class="funcs">
-    <header>
-      <h2>Funcs</h2>
-    </header>
-    <div ng-repeat="func in package.Funcs">
-      <h3>{{func.Name}}</h3>
-      <pre>{{func.Decl.Text}}</pre>
-      <p>{{func.Doc}}</p>
-    </div>
-  </section>
-
-  <section class="types">
-    <header>
-      <h2>Types</h2>
-    </header>
-    <div ng-repeat="type in package.Types">
-      <h3>{{type.Name}}</h3>
-      <p>{{type.Doc}}</p>
-      <pre>{{type.Decl.Text}}</pre>
-
-      <section class="funcs">
-        <h3>{{type.Name}} Functions</h3>
-        <div ng-repeat="func in type.Funcs">
-          <h4>{{func.Name}}</h4>
-          <p>{{func.Doc}}</p>
-          <pre>{{func.Decl.Text}}</pre>
-        </div>
-      </section>
-
-      <section class="methods">
-        <h3>{{type.Name}} Methods</h3>
-        <div ng-repeat="meth in type.Methods">
-          <h4>func ({{meth.Recv}}) {{meth.Name}}</h4>
-          <pre>{{meth.Decl.Text}}</pre>
-          <p>{{meth.Doc}}</p>
-        </div>
-      </section>
-
-      <section class="examples">
-        <h3>{{type.Name}} Examples</h3>
-        <div ng-repeat="example in type.Examples">
-          {{example}}
-        </div>
-    </div>
-  </section>
+  <h1>Packages</h1>
+  <div ng-repeat="package in packages.all">
+    <a ng-href="#{{package.path}}">{{package.path}}</a>
+  </div>
 </div>

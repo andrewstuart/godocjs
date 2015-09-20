@@ -27,6 +27,10 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/:pkgPath*', {
+        templateUrl: 'views/docs.html',
+        controller: 'DocsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
