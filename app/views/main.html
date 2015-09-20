@@ -1,6 +1,13 @@
 <div class="container">
+  <div class="input-group">
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-search"></span>
+    </span>
+    <input type="text" ng-model="search" class="form-control" aria-label="Search packages">
+  </div>
+
   <h1>Packages</h1>
-  <div ng-repeat="package in packages.all">
-    <a ng-href="#{{package.path}}">{{package.path}}</a>
+  <div ng-repeat="package in packages.all | filter:search">
+    <a ng-href="#{{package.path}}">{{package.path}}</a> {{package.synopsis}}
   </div>
 </div>

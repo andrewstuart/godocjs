@@ -7,7 +7,7 @@
  * # docBase
  */
 angular.module('godocApp')
-  .directive('docBase', function () {
+  .directive('docBase', function ($timeout) {
     return {
       templateUrl: 'views/doc-base.html',
       restrict: 'E',
@@ -15,6 +15,11 @@ angular.module('godocApp')
         data: '='
       },
       link: function postLink($scope, iEle, iAttrs) {
+        $scope.$watch('data', function() {
+          $timeout(function() {
+            hljs.initHighlighting();
+          });
+        });
       }
     };
   });

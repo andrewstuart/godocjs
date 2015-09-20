@@ -2,14 +2,33 @@
   <h1>package {{package.ProjectName}}</h1>
   <p>{{package.Synopsis}}</p>
   <p>Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
+  <a class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
 </div>
 
 <div class="container">
-  <section class="imports" ng-if="package.Imports.length">
-    <h2>Imports</h2>
-    <div ng-repeat="imp in package.Imports">
-      <a ng-href="#/{{imp}}">{{imp}}</a>
+  <div class="row">
+    <h2 ng-click="hideIndex = !hideIndex">Index</h2>
+    <div ng-hide="hideIndex">
+      <div ng-repeat="func in package.Funcs">
+        <a ng-href="#/{{::package.ImportPath}}#{{func.Name}}">func {{func.Decl.Text}}</a>
+      </div>
+      <div ng-repeat="type in package.Types">
+        <a ng-href="#/{{::package.ImportPath}}#{{type.Name}}">type {{type.Name}}</a>
+        <ul>
+          <li ng-repeat="func in type.Funcs">
+            <a ng-href="#/{{::package.ImportPath}}#{{type.Name}}-{{func.Name}}">{{func.Decl.Text}}</a>
+          </li>
+          <li ng-repeat="method in type.Methods">
+            <a ng-href="#/{{::package.ImportPath}}#{{type.Name}}-{{method.Name}}">{{method.Decl.Text}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+
+  <section class="files">
+    <h4>Files</h4>
+    <a ng-repeat="file in package.Files" ng-href="{{file.URL}}">{{file.Name}}</a>
   </section>
 
   <section class="consts" ng-if="package.Consts.length">
@@ -17,7 +36,7 @@
       <h2>Consts</h2>
     </header>
     <div ng-repeat="const in package.Consts">
-    <doc-base data="const"></doc-base>
+      <doc-base data="const"></doc-base>
     </div>
   </section>
 
@@ -26,7 +45,7 @@
       <h2>Funcs</h2>
     </header>
     <div ng-repeat="func in package.Funcs">
-      <h3>{{func.Name}}</h3>
+      <h3 id="{{func.Name}}">{{func.Name}}</h3>
       <doc-base data="func"></doc-base>
     </div>
   </section>
@@ -36,13 +55,13 @@
       <h2>Types</h2>
     </header>
     <div ng-repeat="type in package.Types">
-      <h3>{{type.Name}}</h3>
+      <h3 id="{{type.Name}}">{{type.Name}}</h3>
       <doc-base data="type"></doc-base>
 
       <section class="funcs" ng-if="type.Funcs.length">
         <h3>{{type.Name}} Functions</h3>
         <div ng-repeat="func in type.Funcs">
-          <h4>{{func.Name}}</h4>
+          <h4 id="{{type.Name}}-{{func.Name}}">{{func.Name}}</h4>
           <doc-base data="func"></doc-base>
         </div>
       </section>
@@ -50,12 +69,17 @@
       <section class="methods" ng-if="type.Methods.length">
         <h3>{{type.Name}} Methods</h3>
         <div ng-repeat="meth in type.Methods">
-          <h4>func ({{meth.Recv}}) {{meth.Name}}</h4>
+          <h4 id="{{type.Name}}-{{meth.Name}}">func ({{meth.Recv}}) {{meth.Name}}</h4>
           <doc-base data="meth"></doc-base>
         </div>
       </section>
     </div>
   </section>
-</div>
 
-<a class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
+  <section class="imports col-md-6" ng-if="package.Imports.length">
+    <h2>Imports</h2>
+    <div ng-repeat="imp in package.Imports">
+      <a ng-href="#/{{imp}}">{{imp}}</a>
+    </div>
+  </section>
+</div>

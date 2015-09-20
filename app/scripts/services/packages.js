@@ -13,7 +13,6 @@ angular.module('godocApp')
 
     //TODO configurable provider
     var BASE = 'http://localhost:8080/'
-    var API = 'http://api.localhost:8080/'
 
     var pkgCache = $cacheFactory('packages');
 
@@ -25,9 +24,10 @@ angular.module('godocApp')
      */
 
     pkgs.refreshAll = function() {
-      $http.get(API + 'packages').success(function(res) {
-        pkgs.all = res.results;
-      });
+      $http.get(BASE + '-/index', {headers: {Accept: 'application/json'}})
+        .success(function(res) {
+          pkgs.all = res;
+        });
     };
 
     pkgs.refreshAll();

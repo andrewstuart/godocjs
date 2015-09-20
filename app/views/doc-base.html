@@ -1,10 +1,10 @@
 <div>
   <p> {{data.Doc}} </p>
-  <pre> {{data.Decl.Text}} </pre>
+  <pre><code class="golang"> {{data.Decl.Text}} </code></pre>
   <section class="examples" ng-if="data.Examples.length">
     <header>{{data.Name}} Examples</header>
     <div ng-repeat="example in data.Examples">
-      <pre class="golang" ng-bind="example.Code.Text"></pre>
+      <pre><code class="golang">{{example.Code.Text}}</code></pre>
     </div>
   </section>
 </div>
