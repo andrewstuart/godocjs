@@ -6,3 +6,21 @@ section.examples header {
 .files a {
   margin: 0 0.25em;
 }
+
+  rect {
+    fill: none;
+    pointer-events: all;
+  }
+
+  .link {
+    stroke: #999;
+    fill: none;
+  }
+
+  .node {
+    fill: black;
+  }
+
+  .cursor {
+    fill: none;
+  }

@@ -53,6 +53,15 @@ angular.module('godocApp')
       });
     };
 
+    pkgs.getGraph = function(path) {
+      return $q(function(resolve, reject) {
+        $http.get(BASE + path, {
+          params: {'import-graph': true},
+          headers: {Accept: 'application/json'}
+        }).success(resolve).error(reject);
+      });
+    };
+
     /**
      * @ngdoc
      * @methodOf godocApp.service:packages
