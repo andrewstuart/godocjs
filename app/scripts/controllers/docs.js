@@ -8,7 +8,7 @@
  * Controller of the godocApp
  */
 angular.module('godocApp')
-  .controller('DocsCtrl', function ($scope, packages, $routeParams) {
+  .controller('DocsCtrl', function ($scope, packages, $routeParams, $timeout) {
 
     $scope.refresh = function() {
       packages.refresh($routeParams.pkgPath)

@@ -15,11 +15,11 @@ angular.module('godocApp')
         data: '='
       },
       link: function postLink($scope, iEle, iAttrs) {
-        $scope.$watch('data', function() {
-          $timeout(function() {
-            hljs.initHighlighting();
-          });
-        });
+        // setTimeout(function() {
+        //   Array.prototype.slice.call(iEle[0].querySelectorAll('pre code')).forEach(function(ele) {
+        //     hljs.highlightBlock(ele);
+        //   });
+        // }, 0);
       }
     };
   });
