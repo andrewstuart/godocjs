@@ -4,6 +4,8 @@
   <a class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
 </div>
 
+<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+
 <div class="container">
   <section class="index">
     <h2 ng-click="hideIndex = !hideIndex">Index</h2>
@@ -83,5 +85,5 @@
   </section>
 </div>
 
-<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+<!-- <force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph> -->
 <!-- <dependency-tree tree="tree"></dependency-tree> -->

@@ -46,6 +46,20 @@ angular.module('godocApp')
           .attr('height', size)
           // .on('mousedown', mouseDown);
 
+        // build the arrow.
+        svg.append("defs").selectAll("marker")
+          .data(["end"])      // Different link/path types can be defined here
+        .enter().append("marker")    // This section adds in the arrows
+          .attr("id", String)
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 15)
+          .attr("markerWidth", 15)
+          .attr("markerHeight", 15)
+          .attr("orient", "auto")
+        .append("path")
+          .attr('class', 'arrow')
+          .attr("d", "M0,-5L10,0L0,5");
+
         svg.append('rect')
           .attr('width', size)
           .attr('height', size);
@@ -67,10 +81,24 @@ angular.module('godocApp')
 
         function tick () {
           $scope.$parent.$digest();
+
+          link.attr("d", function(d) {
+            var dx = d.target.x - d.source.x,
+              dy = d.target.y - d.source.y,
+              dr = Math.sqrt(dx * dx + dy * dy);
+
+            return "M" +
+              d.source.x + "," +
+              d.source.y + "L" +
+              d.target.x + "," +
+              d.target.y;
+          });
+
           link.attr('x1', function (d) { return d.source.x; })
             .attr('y1', function(d) { return d.source.y; })
             .attr('x2', function(d) { return d.target.x; })
             .attr('y2', function(d) { return d.target.y; });
+
           svg.selectAll('.gnode').attr('transform', function(d) {
             return 'translate(' + d.x + ', ' + d.y + ')';
           });
@@ -88,7 +116,8 @@ angular.module('godocApp')
 
           link = link.data($scope.links);
 
-          link.enter().insert('line', '.node')
+          link.enter().insert('path', '.node')
+            .attr('marker-end', 'url(#end)')
             .attr('class', 'link');
 
           gnode = svg.selectAll('.gnode')
