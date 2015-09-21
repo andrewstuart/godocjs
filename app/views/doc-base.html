@@ -1,10 +1,13 @@
 <div>
   <p> {{data.Doc}} </p>
-  <pre><code class="golang"> {{data.Decl.Text}} </code></pre>
+  <pre>
+    <a class="code" ng-href="{{package.Files[data.Pos.File].URL}}#L{{data.Pos.Line}}" target="_blank"><span class="glyphicon glyphicon-cloud"></span></a>
+    <code class="golang"> {{data.Decl.Text}} </code>
+  </pre>
   <section class="examples" ng-if="data.Examples.length">
     <header>{{data.Name}} Examples</header>
     <div ng-repeat="example in data.Examples">
-      <pre><code class="golang">{{example.Code.Text}}</code></pre>
+      <pre>{{example.Code.Text}}</pre>
     </div>
   </section>
 </div>

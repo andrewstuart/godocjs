@@ -27,9 +27,15 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/search', {
+        templateUrl: 'views/search.html',
+        controller: 'SearchCtrl',
+        reloadOnSearch: false
+      })
       .when('/:pkgPath*', {
         templateUrl: 'views/docs.html',
-        controller: 'DocsCtrl'
+        controller: 'DocsCtrl',
+        reloadOnSearch: false
       })
       .otherwise({
         redirectTo: '/'

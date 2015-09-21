@@ -14,12 +14,30 @@ angular.module('godocApp')
       packages.refresh($routeParams.pkgPath)
         .then(function(pkg) {
           $scope.package = pkg;
+          getExamples(pkg);
         });
     };
+
+    //TODO move this to packages service
+    //Traverse object graph and find all Examples children
+    function getExamples (o) {
+      if ( arguments.length === 1 ) { $scope.allExamples = []; }
+
+      _.each(o, function(child, k) {
+        if ( k === 'Examples' && child ) {
+          $scope.allExamples = $scope.allExamples.concat(child);
+        } else if ( _.isObject(child) && k !== 'parent' ) {
+          getExamples(child, true)
+        }
+      });
+    }
 
     packages.get($routeParams.pkgPath)
       .then(function(pkg) {
         $scope.package = pkg;
+        getExamples(pkg);
+
+        pkg.docPs = pkg.Doc.split('\n\n');
       })
       .catch(function(err) {
         if ( err === null ) {

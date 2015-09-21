@@ -3,6 +3,27 @@ section.examples header {
   font-weight: bold;
 }
 
+pre {
+  position: relative;
+
+  & .code {
+    opacity: 0;
+    transition: opacity 0.33s;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 0.5em;
+
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    border-radius: 0 0.25em 0 0.25em;
+  }
+
+  &:hover .code { opacity: 1; }
+}
+
 .files a {
   margin: 0 0.25em;
 }
@@ -23,6 +44,11 @@ rect {
 
 .cursor {
   fill: none;
+}
+
+pre.doc {
+  background-color: transparent;
+  border: none;
 }
 
 .arrow {

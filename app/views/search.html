@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="input-group">
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-search"></span>
+    </span>
+    <input type="text" ng-model="query" class="form-control" aria-label="Documentation Search"></input>
+  </div>
+
+  <p ng-repeat="res in results track by $id(res)">
+    <a ng-href="#/{{res.path}}">{{res.path}}</a>
+    <span>{{res.synopsis}}</span>
+  </p>
+</div>

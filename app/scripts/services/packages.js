@@ -89,4 +89,34 @@ angular.module('godocApp')
         });
       });
     };
+
+    var canceler;
+
+    /**
+     * @ngdoc
+     * @methodOf godocApp.service:packages
+     * @name godocApp.service:packages#query
+     * @description `query` is a method to search the api and return json
+     */
+    pkgs.query = function(q) {
+      return $q(function(resolve, reject) {
+        if(canceler) { canceler.resolve(); }
+        canceler = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: BASE,
+          params: {
+            q: q
+          },
+          cache: pkgCache,
+          timeout: canceler,
+          headers: {
+            Accept: 'application/json'
+          }
+        }).success(resolve).error(reject).then(function() {
+          canceler = undefined;
+        });
+      });
+    };
   });

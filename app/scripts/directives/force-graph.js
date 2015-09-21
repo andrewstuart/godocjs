@@ -79,8 +79,10 @@ angular.module('godocApp')
 
         var path;
 
+        // var ticks = 0;
+
         function tick () {
-          $scope.$parent.$digest();
+          // if ( ++ ticks % 10 === 0 ) { $scope.$parent.$digest(); }
 
           link.attr("d", function(d) {
             var dx = d.target.x - d.source.x,

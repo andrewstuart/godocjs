@@ -1,17 +1,22 @@
-<div class="jumbotron"> <h1>package {{package.Name}}</h1>
+<div class="jumbotron">
+  <h1>package {{package.Name}}</h1>
   <p>{{package.Synopsis}}</p>
-  <p>Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
-  <a class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
+  <p ng-show="package">Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
+  <a ng-show="package" class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
+  <a ng-show="package" target="_blank" ng-href="http://localhost:8080/{{package.ImportPath}}">Old Version</a>
 </div>
 
-<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+<div ng-show="package" class="container">
+  <code>import {{package.ImportPath}}</code>
+  <p ng-repeat="p in package.docPs">{{p}}</p>
 
-<div class="container">
   <section class="index">
-    <h2 ng-click="hideIndex = !hideIndex">Index</h2>
-    <div ng-hide="hideIndex">
+    <h2>Index</h2>
+    <div>
+      <div ng-if="package.Consts"><a ng-href="#/{{::package.ImportPath}}#consts">Constants</a></div>
+      <div ng-if="package.Vars"><a ng-href="#/{{::package.ImportPath}}#pkg-vars">Variables</a></div>
       <div ng-repeat="func in package.Funcs track by func.Name">
-        <a ng-href="#/{{::package.ImportPath}}#{{func.Name}}">func {{func.Decl.Text}}</a>
+        <a ng-href="#/{{::package.ImportPath}}#{{func.Name}}">{{func.Decl.Text}}</a>
       </div>
       <div ng-repeat="type in package.Types track by type.Name">
         <a ng-href="#/{{::package.ImportPath}}#{{type.Name}}">type {{type.Name}}</a>
@@ -25,19 +30,41 @@
         </ul>
       </div>
     </div>
+
+    <section class="examples" ng-if="allExamples.length">
+      <h4>Examples</h4>
+      <a ng-repeat="ex in allExamples" ng-href="#/{{::package.ImportPath}}#{{ex.Name}}">
+        {{ex.Code.Text}}
+      </a>
+    </section>
+
+    <section class="files">
+      <h4>Files</h4>
+      <a ng-repeat="file in package.Files track by file.Name" ng-href="{{file.URL}}">{{file.Name}}</a>
+    </section>
+
   </section>
 
-  <section class="files">
-    <h4>Files</h4>
-    <a ng-repeat="file in package.Files track by file.Name" ng-href="{{file.URL}}">{{file.Name}}</a>
-  </section>
 
   <section class="consts" ng-if="package.Consts.length">
-    <header>
-      <h2>Consts</h2>
+    <header id="consts">
+      <h2>Constants</h2>
     </header>
-    <div ng-repeat="const in package.Consts">
-      <doc-base data="const"></doc-base>
+    <div>
+      <div ng-repeat="const in package.Consts">
+        <doc-base data="const"></doc-base>
+      </div>
+    </div>
+  </section>
+
+  <section class="vars" ng-if="package.Vars.length">
+    <header id="pkg-vars">
+      <h2 ng-click="show = !show">Variables</h2>
+    </header>
+    <div ng-if="show">
+      <div ng-repeat="var in package.Vars">
+        <doc-base data="var"></doc-base>
+      </div>
     </div>
   </section>
 
@@ -62,7 +89,7 @@
       <section class="funcs" ng-if="type.Funcs.length">
         <h3>{{type.Name}} Functions</h3>
         <div ng-repeat="func in type.Funcs track by func.Name">
-          <h4 id="{{type.Name}}-{{func.Name}}">{{func.Name}}</h4>
+          <h4 id="{{type.Name}}-{{func.Name}}">{{func.Name}} <a ng-href="#/{{package.ImportPath}}#{{type.Name}}-{{func.Name}}"><span class="glyphicon glyphicon-link"></span></a></h4>
           <doc-base data="func"></doc-base>
         </div>
       </section>
@@ -85,5 +112,4 @@
   </section>
 </div>
 
-<!-- <force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph> -->
-<!-- <dependency-tree tree="tree"></dependency-tree> -->
+<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
