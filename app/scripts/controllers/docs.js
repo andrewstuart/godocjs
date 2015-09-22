@@ -18,6 +18,8 @@ angular.module('godocApp')
         });
     };
 
+    $scope.path = $routeParams.pkgPath;
+
     //TODO move this to packages service
     //Traverse object graph and find all Examples children
     function getExamples (o) {
@@ -32,6 +34,9 @@ angular.module('godocApp')
       });
     }
 
+    var pathSplit = $routeParams.pkgPath.split('/');
+    $scope.tmpPkgName = pathSplit[pathSplit.length-1] || undefined;
+
     packages.get($routeParams.pkgPath)
       .then(function(pkg) {
         $scope.package = pkg;
@@ -40,8 +45,9 @@ angular.module('godocApp')
         pkg.docPs = pkg.Doc.split('\n\n');
       })
       .catch(function(err) {
+        $scope.error = err;
         if ( err === null ) {
-          //TODO Show message somehow
+          $scope.error = "Package was not found.";
         }
       }).finally(function() {
         return packages.getGraph($routeParams.pkgPath)

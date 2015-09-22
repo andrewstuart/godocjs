@@ -1,9 +1,9 @@
-<div class="container-fluid">
-  <div class="col-md-8 col-md-offset-2">
-    <h1>Index</h1>
-    <div ng-repeat="pkg in packages.all">
-      <strong><a ng-href="#/{{pkg.path}}">{{pkg.path}}</a></strong>
-      <span>{{pkg.synopsis}}</span>
-    </div>
+<div class="container">
+  <h1>Index</h1>
+  <div ng-repeat="pkg in packages.all">
+    <strong>
+      <a ng-href="#/{{pkg.path}}">{{pkg.path}}</a>
+    </strong>
+    <span>{{pkg.synopsis}}</span>
   </div>
 </div>

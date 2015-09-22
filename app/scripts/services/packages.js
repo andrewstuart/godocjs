@@ -4,6 +4,12 @@ angular.module('godocApp')
   .service('packages', function ($http, $cacheFactory, $q) {
     var pkgs = this;
 
+    function resolveWith (res, key) {
+      return function(obj) {
+        return res(obj[key || 'data']);
+      };
+    }
+
     /**
      * @ngdoc service
      * @name godocApp.service:packages
@@ -25,8 +31,8 @@ angular.module('godocApp')
 
     pkgs.refreshAll = function() {
       $http.get(BASE + '-/index', {headers: {Accept: 'application/json'}})
-        .success(function(res) {
-          pkgs.all = res;
+        .then(function(res) {
+          pkgs.all = res.data;
         });
     };
 
@@ -49,7 +55,7 @@ angular.module('godocApp')
           },
           url: BASE + path,
           cache: pkgCache
-        }).success(resolve).error(reject);
+        }).then(resolveWith(resolve, 'data')).catch(reject);
       });
     };
 
@@ -58,7 +64,7 @@ angular.module('godocApp')
         $http.get(BASE + path, {
           params: {'import-graph': true},
           headers: {Accept: 'application/json'}
-        }).success(resolve).error(reject);
+        }).then(resolveWith(resolve, 'data')).catch(reject);
       });
     };
 
@@ -114,7 +120,7 @@ angular.module('godocApp')
           headers: {
             Accept: 'application/json'
           }
-        }).success(resolve).error(reject).then(function() {
+        }).then(resolveWith(resolve, 'data')).error(reject).then(function() {
           canceler = undefined;
         });
       });

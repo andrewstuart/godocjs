@@ -1,12 +1,17 @@
 <div class="jumbotron">
-  <h1>package {{package.Name}}</h1>
+  <h1>package {{package.Name || tmpPkgName}}</h1>
   <p>{{package.Synopsis}}</p>
   <p ng-show="package">Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
   <a ng-show="package" class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
   <a ng-show="package" target="_blank" ng-href="http://localhost:8080/{{package.ImportPath}}">Old Version</a>
 </div>
 
-<div ng-show="package" class="container">
+<div class="container" ng-if="error">
+  <h2>An error occurred searching for package {{path}}.</h2>
+  <h3>{{error.statusText || 'Not Found'}}</h3>
+</div>
+
+<div ng-show="package" class="container docs">
   <code>import {{package.ImportPath}}</code>
   <p ng-repeat="p in package.docPs">{{p}}</p>
 
@@ -42,7 +47,6 @@
       <h4>Files</h4>
       <a ng-repeat="file in package.Files track by file.Name" ng-href="{{file.URL}}">{{file.Name}}</a>
     </section>
-
   </section>
 
 
@@ -113,5 +117,7 @@
   </section>
 </div>
 
-<h3>Import graph</h3>
-<force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+<div ng-if="package">
+  <h3>Import graph</h3>
+  <force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
+</div>
