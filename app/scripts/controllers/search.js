@@ -10,6 +10,8 @@
 angular.module('godocApp')
   .controller('SearchCtrl', function ($scope, $routeParams, packages, $location) {
     function query (q) {
+      if ( !q ) return;
+
       packages.query(q).then(function(res) {
         $scope.results = res;
       });

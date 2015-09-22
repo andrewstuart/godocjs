@@ -38,17 +38,22 @@ angular.module('godocApp')
           linkDistance: 10
         };
 
-        var size = window.innerWidth;
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         var force;
 
         var svg = d3.select(iEle[0]).append('svg')
-          .attr('width', size)
-          .attr('height', size)
+          .attr('width', width)
+          .attr('height', height)
           // .on('mousedown', mouseDown);
+
+        //Without this, the url(#end) selector seems to find markers previously
+        //on the page that have no data and thus display nothing.
+        var endId = Math.random().toString();
 
         // build the arrow.
         svg.append("defs").selectAll("marker")
-          .data(["end"])      // Different link/path types can be defined here
+          .data(["end" + endId])      // Different link/path types can be defined here
         .enter().append("marker")    // This section adds in the arrows
           .attr("id", String)
           .attr("viewBox", "0 -5 10 10")
@@ -61,8 +66,8 @@ angular.module('godocApp')
           .attr("d", "M0,-5L10,0L0,5");
 
         svg.append('rect')
-          .attr('width', size)
-          .attr('height', size);
+          .attr('width', width)
+          .attr('height', height);
 
         var gnode = svg.selectAll('.gnode')
         var node = svg.selectAll('.node')
@@ -108,7 +113,7 @@ angular.module('godocApp')
 
         function render () {
           force = d3.layout.force()
-            .size([size, size])
+            .size([width, height])
             .nodes($scope.nodes)
             .links($scope.links)
             .linkDistance(100)
@@ -119,7 +124,7 @@ angular.module('godocApp')
           link = link.data($scope.links);
 
           link.enter().insert('path', '.node')
-            .attr('marker-end', 'url(#end)')
+            .attr('marker-end', 'url(#end' + endId + ')')
             .attr('class', 'link');
 
           gnode = svg.selectAll('.gnode')

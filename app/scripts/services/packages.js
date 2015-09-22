@@ -12,7 +12,7 @@ angular.module('godocApp')
      */
 
     //TODO configurable provider
-    var BASE = 'http://localhost:8080/'
+    var BASE = 'http://godoc.astuart.co:8089/'
 
     var pkgCache = $cacheFactory('packages');
 

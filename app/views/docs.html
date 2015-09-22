@@ -109,7 +109,9 @@
     <div ng-repeat="imp in package.Imports track by imp">
       <a ng-href="#/{{imp}}">{{imp}}</a>
     </div>
+
   </section>
 </div>
 
+<h3>Import graph</h3>
 <force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>

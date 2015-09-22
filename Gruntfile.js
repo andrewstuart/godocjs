@@ -67,6 +67,15 @@ module.exports = function (grunt) {
       }
     },
 
+    'gh-pages': {
+      'gh-pages': {
+        options: {
+          base: 'dist'
+        },
+        src: ['**/*']
+      }
+    },
+
     // The actual grunt server settings
     connect: {
       options: {
@@ -487,6 +496,11 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'gh-pages:gh-pages'
   ]);
 
   grunt.registerTask('default', [
