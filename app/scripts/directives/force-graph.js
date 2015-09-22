@@ -130,9 +130,11 @@ angular.module('godocApp')
             .call(force.drag);
 
           gnode
+            .append('a')
+            .attr('transform', 'translate(20, 0)')
+            .attr('xlink:href', function(d) { return '#/' + d.path; })
             .append('text')
             .text(function(d) { return d.path; })
-            .attr('transform', 'translate(20, 0)')
             .call
 
           node = gnode.append('circle')
