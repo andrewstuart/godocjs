@@ -18,7 +18,7 @@ angular.module('godocApp')
      */
 
     //TODO configurable provider
-    var BASE = 'http://godoc.astuart.co:8089/'
+    var BASE = '//godoc.astuart.co:8090/'
 
     var pkgCache = $cacheFactory('packages');
 
