@@ -73,15 +73,6 @@ angular.module('godocApp')
         var node = svg.selectAll('.node')
         var link = svg.selectAll('.link')
 
-        function mouseDown () {
-          d3.event.preventDefault();
-          var point = d3.mouse(this);
-          var node = { x: point[0], y: point[1] };
-          $scope.nodes.push(node);
-
-          render();
-        }
-
         var path;
 
         // var ticks = 0;

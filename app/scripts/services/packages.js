@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('godocApp')
-  .service('packages', function ($http, $cacheFactory, $q) {
+  .constant('PKG_BASE', '//godoc.astuart.co:8090/')
+  .service('packages', function (PKG_BASE, $http, $cacheFactory, $q) {
     var pkgs = this;
 
     function resolveWith (res, key) {
@@ -18,7 +19,7 @@ angular.module('godocApp')
      */
 
     //TODO configurable provider
-    var BASE = '//godoc.astuart.co:8090/'
+    var PKG_BASE = '//godoc.astuart.co:8090/'
 
     var pkgCache = $cacheFactory('packages');
 
@@ -30,7 +31,7 @@ angular.module('godocApp')
      */
 
     pkgs.refreshAll = function() {
-      $http.get(BASE + '-/index', {headers: {Accept: 'application/json'}})
+      $http.get(PKG_BASE + '-/index', {headers: {Accept: 'application/json'}})
         .then(function(res) {
           pkgs.all = res.data;
         });
@@ -53,7 +54,7 @@ angular.module('godocApp')
           headers: {
             Accept: 'application/json'
           },
-          url: BASE + path,
+          url: PKG_BASE + path,
           cache: pkgCache
         }).then(resolveWith(resolve, 'data')).catch(reject);
       });
@@ -61,7 +62,7 @@ angular.module('godocApp')
 
     pkgs.getGraph = function(path) {
       return $q(function(resolve, reject) {
-        $http.get(BASE + path, {
+        $http.get(PKG_BASE + path, {
           params: {'import-graph': true},
           headers: {Accept: 'application/json'}
         }).then(resolveWith(resolve, 'data')).catch(reject);
@@ -78,12 +79,12 @@ angular.module('godocApp')
      */
 
     pkgs.refresh = function(path) {
-      pkgCache.remove(BASE + path);
+      pkgCache.remove(PKG_BASE + path);
 
       return $q(function(resolve, reject) {
         $http({
           method: 'POST',
-          url: BASE + '-/refresh',
+          url: PKG_BASE + '-/refresh',
           headers: {
             Accept: 'application/json'
           },
@@ -111,7 +112,7 @@ angular.module('godocApp')
 
         $http({
           method: 'GET',
-          url: BASE,
+          url: PKG_BASE,
           params: {
             q: q
           },
@@ -120,7 +121,7 @@ angular.module('godocApp')
           headers: {
             Accept: 'application/json'
           }
-        }).then(resolveWith(resolve, 'data')).error(reject).then(function() {
+        }).then(resolveWith(resolve, 'data')).catch(reject).then(function() {
           canceler = undefined;
         });
       });

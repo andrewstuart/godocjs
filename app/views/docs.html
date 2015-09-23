@@ -3,7 +3,7 @@
   <p>{{package.Synopsis}}</p>
   <p ng-show="package">Last Updated {{(package.Updated | dateDiff).humanize(true)}}</p>
   <a ng-show="package" class="btn btn-sm btn-default" ng-click="refresh(package.ImportPath)">Refresh</a>
-  <a ng-show="package" target="_blank" ng-href="http://localhost:8080/{{package.ImportPath}}">Old Version</a>
+  <a ng-show="package" target="_blank" ng-href="/{{package.ImportPath}}">Old Version</a>
 </div>
 
 <div class="container" ng-if="error">
@@ -117,7 +117,7 @@
   </section>
 </div>
 
-<div ng-if="package">
+<div class="row" ng-show="package">
   <h3>Import graph</h3>
   <force-graph root="pkgs.current" nodes="pkgs" links="edges"></force-graph>
 </div>
